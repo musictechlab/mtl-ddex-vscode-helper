@@ -1,0 +1,77 @@
+{
+  "name": "mtl-ddex-vscode-helper",
+  "displayName": "MTL DDEX Helper",
+  "publisher": "musictechlab",
+  "description": "Jump to DDEX XML tag documentation and tooling for ERN/MWDR/MLC.",
+  "version": "0.0.1",
+  "engines": { "vscode": "^1.80.0" },
+
+  "icon": "assets/images/icon.png",      
+  "galleryBanner": { 
+    "color": "#111111",
+    "theme": "dark"
+  },
+  "categories": ["Other"],
+  "keywords": ["ddex","xml","ern","metadata","music","helper"],
+
+  "repository": { "type": "git", "url": "https://github.com/musictechlab/mtl-ddex-vscode-helper" },
+  "bugs": { "url": "https://github.com/musictechlab/mtl-ddex-vscode-helper/issues" },
+  "homepage": "https://github.com/musictechlab/mtl-ddex-vscode-helper#readme",
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:xml",
+    "onCommand:mtl-ddex-vscode-helper.openDocsForTag",
+    "onCommand:mtl-ddex-vscode-helper.reloadDdexMap",
+    "onView:ddexDocsView"                   
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ddex-helper-container",
+          "title": "MTL DDEX Helper",
+          "icon": "assets/images/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "ddex-helper-container": [
+        {
+          "id": "ddexDocsView",
+          "name": "MTL DDEX Docs",
+          "icon": "assets/images/icon.png"
+        }
+      ]
+    },
+    "commands": [
+      { "command": "mtl-ddex-vscode-helper.openDocsForTag", "title": "Open DDEX Docs for Tag", "category": "MTL DDEX Helper" },
+      { "command": "mtl-ddex-vscode-helper.reloadDdexMap", "title": "Reload DDEX Map", "category": "MTL DDEX Helper" },
+      { "command": "mtl-ddex-vscode-helper.showDocsView", "title": "Show DDEX Docs", "category": "MTL DDEX Helper" }
+    ],
+    "keybindings": [
+      { "command": "mtl-ddex-vscode-helper.openDocsForTag", "key": "ctrl+alt+e", "mac": "cmd+alt+e", "when": "editorTextFocus && editorLangId == xml" },
+      { "command": "mtl-ddex-vscode-helper.reloadDdexMap", "key": "ctrl+alt+r", "mac": "cmd+alt+r", "when": "editorTextFocus" },
+      { "command": "mtl-ddex-vscode-helper.showDocsView", "key": "ctrl+alt+m", "mac": "cmd+alt+m" }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.105.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "eslint": "^9.36.0",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
