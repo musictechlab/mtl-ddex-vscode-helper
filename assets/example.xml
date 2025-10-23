@@ -1,8 +1,8 @@
 <NewReleaseMessage>
-  <PartyId Namespace="spotify">spotify:artist:XXXXXXX</PartyId>
+<PartyId Namespace="spotify">spotify:artist:XXXXXXX</PartyId>
   <ReleaseList>
     <Release>
       <DisplayArtist>John Doe</DisplayArtist>
     </Release>
-  </ReleaseList>
-</NewReleaseMessage>
+  </ReleaseList> 
+<NewReleaseMessage>
