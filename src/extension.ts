@@ -99,33 +99,6 @@ export function activate(context: vscode.ExtensionContext) {
   let ddexMap = loadDdexMap(context, log);
   log.appendLine('✅ Documentation DDEX map loaded!');
 
-  // vscode.window.registerWebviewViewProvider('ddexDocsView', {
-  //   resolveWebviewView(webviewView) {
-  //     const html = `
-  //       <html>
-  //       <body style="font-family: sans-serif; padding: 10px">
-  //         <input id="search" type="text" placeholder="Search tag..." style="width:100%; padding:5px"/>
-  //         <ul id="list"></ul>
-  //         <script>
-  //           const data = ${JSON.stringify(ddexMap)};
-  //           const list = document.getElementById('list');
-  //           const input = document.getElementById('search');
-  //           function render(filter='') {
-  //             list.innerHTML = Object.entries(data)
-  //               .filter(([k]) => k.toLowerCase().includes(filter.toLowerCase()))
-  //               .map(([k,v]) => '<li><a href="'+v+'" target="_blank">'+k+'</a></li>')
-  //               .join('');
-  //           }
-  //           input.oninput = () => render(input.value);
-  //           render();
-  //         </script>
-  //       </body>
-  //       </html>`;
-  //     webviewView.webview.options = { enableScripts: true };
-  //     webviewView.webview.html = html;
-  //   }
-  // });
-
   // HOVER: show URL or "no info provided…"
   context.subscriptions.push(
     vscode.languages.registerHoverProvider('xml', {

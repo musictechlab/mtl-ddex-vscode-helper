@@ -57,17 +57,12 @@ assets/ddex-map.json
 Example:
 ```json
 {
-    "tags": {
-        "PartyID": "https://ddex.net/standards/party-id/"
-    },
-    "standards": {
-        "ERN38": {
-            "tags": {
-                "ReleaseList": "https: //support.google.com/youtube/answer/3506114?sjid=9804191667439814450-EU",
-                "TechnicalDetails": "https://service.ddex.net/dd/ERN38/dd/ern_TechnicalTextDetails.html"
-            }
-        }
-    }
+    ...
+    "PartyId": "https://ddex.net/standards/party-id/",
+    "NewReleaseMessage": "https://ern.ddex.net/electronic-release-notification-message-suite-part-1-definitions-of-messages/6-message-definition/6.2-structure-of-the-newreleasemessage/",
+    "ReleaseList": "https://support.google.com/youtube/answer/3506114?sjid=9804191667439814450-EU",
+    "TechnicalDetails": "https://service.ddex.net/dd/ERN38/dd/ern_TechnicalTextDetails.html"
+    ...
 }
 ```
 

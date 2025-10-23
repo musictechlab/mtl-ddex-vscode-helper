@@ -4,7 +4,7 @@
   "publisher": "musictechlab",
   "description": "Jump to DDEX XML tag documentation and tooling for ERN/MWDR/MLC.",
   "version": "0.0.1",
-  "engines": { "vscode": "^1.80.0" },
+  "engines": { "vscode": "^1.105.0" },
 
   "icon": "assets/images/icon.png",      
   "galleryBanner": { 
@@ -22,8 +22,7 @@
     "onStartupFinished",
     "onLanguage:xml",
     "onCommand:mtl-ddex-vscode-helper.openDocsForTag",
-    "onCommand:mtl-ddex-vscode-helper.reloadDdexMap",
-    "onView:ddexDocsView"                   
+    "onCommand:mtl-ddex-vscode-helper.reloadDdexMap"           
   ],
   "contributes": {
     "viewsContainers": {
@@ -31,15 +30,6 @@
         {
           "id": "ddex-helper-container",
           "title": "MTL DDEX Helper",
-          "icon": "assets/images/icon.png"
-        }
-      ]
-    },
-    "views": {
-      "ddex-helper-container": [
-        {
-          "id": "ddexDocsView",
-          "name": "MTL DDEX Docs",
           "icon": "assets/images/icon.png"
         }
       ]

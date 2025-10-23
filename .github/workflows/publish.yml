@@ -1,0 +1,41 @@
+name: Publish VSCode Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧩 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🧱 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🔧 Compile TypeScript
+        run: npm run compile
+
+      - name: 🚀 Publish to Marketplace
+        run: npx vsce publish --packagePath mtl-ddex-vscode-helper-$(jq -r .version package.json).vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
+
+      # Optional: create .vsix file for releases
+      - name: 📀 Package VSIX
+        if: always()
+        run: npx vsce package
+
+      - name: 💾 Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: '*.vsix'
