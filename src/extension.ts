@@ -88,7 +88,7 @@ function refreshDecorations(editor: vscode.TextEditor | undefined, ddexMap: Reco
 function detectErnVersionFromText(text: string): { ns?: string; version?: string; xsdUrl?: string } {
   const first = text.slice(0, 8000);
 
-  // try schemaLocation first: "namespace URL  XSD URL"
+  // schemaLocation: "namespaceURL  XSD URL"
   const mLoc = first.match(/schemaLocation\s*=\s*"([^"]+)"/i);
   if (mLoc) {
     const parts = mLoc[1].trim().split(/\s+/);
@@ -109,7 +109,6 @@ function detectErnVersionFromText(text: string): { ns?: string; version?: string
     return { ns, version, xsdUrl };
   }
 
-  // default unknown
   return {};
 }
 
@@ -140,18 +139,17 @@ async function ensureRedHatXmlInstalled(log: vscode.OutputChannel) {
 async function associateErnSchema(version: string, log: vscode.OutputChannel) {
   const cfg = vscode.workspace.getConfiguration();
   const current = cfg.get<any[]>('xml.fileAssociations', []) ?? [];
-  const pattern = '**/*.xml'; // możesz zawęzić np. do **/*ERN*.xml
+  const pattern = '**/*.xml';
 
   const systemId = `http://ddex.net/xml/ern/${version}`;
   const xsd = `http://ddex.net/xml/ern/${version}/release-notification.xsd`;
 
-  // usuń stare wpisy dla ddex/ern
   const filtered = current.filter(e => !(e?.systemId?.includes('/xml/ern/')));
 
   filtered.push({
     pattern,
-    systemId: xsd,           // Red Hat XML: jeśli podasz XSD, to jej użyje; jeśli podasz namespace, też zadziała – ale XSD jest bardziej bezpośrednie
-    rootUri: systemId        // hint dla namespace
+    systemId: xsd,
+    rootUri: systemId
   });
 
   await cfg.update('xml.fileAssociations', filtered, vscode.ConfigurationTarget.Workspace);
@@ -203,19 +201,17 @@ function createLiveValidator(context: vscode.ExtensionContext, log: vscode.Outpu
       status.text = '$(error) DDEX: INVALID';
       status.tooltip = d.message;
       log.appendLine(`❌ Syntax error: ${d.message}`);
-      return; // nie zbieramy zewnętrznych, bo parser i tak nie przejdzie
+      return;
     }
 
     // 2) Red Hat XML diagnostics (XSD + inne)
-    //    Pobieramy aktualną listę diagnostyk z całego VS Code i filtrujemy nasz dokument
     const all = vscode.languages.getDiagnostics(doc.uri);
     const foreignErrors = all.filter(d => d.source !== 'MTL DDEX' && d.severity === vscode.DiagnosticSeverity.Error);
     const foreignWarnings = all.filter(d => d.source !== 'MTL DDEX' && d.severity === vscode.DiagnosticSeverity.Warning);
 
-    // 3) Header info: znajdź wersję ERN i XSD
+    // 3) Header info
     const { version, xsdUrl } = detectErnVersionFromText(text);
     if (!version) {
-      // pokaż przyjazną podpowiedź – pomóż skojarzyć schemat
       ourDiags.push(new vscode.Diagnostic(
         new vscode.Range(0, 0, 0, Math.min(100, doc.lineAt(0).text.length)),
         'No ERN version/schema detected. Use "MTL DDEX: Associate ERN Schema" to set xml.fileAssociations.',
@@ -223,11 +219,9 @@ function createLiveValidator(context: vscode.ExtensionContext, log: vscode.Outpu
       ));
     }
 
-    // 4) Merge our + foreign diagnostics (nasze: tylko informacyjne/syntax)
     const merged = [...foreignErrors, ...foreignWarnings, ...ourDiags];
     diagnostics.set(doc.uri, merged);
 
-    // 5) Status
     if (foreignErrors.length > 0) {
       status.text = '$(error) DDEX: INVALID';
       const preview = foreignErrors.slice(0, 5).map(d => '• ' + d.message);
@@ -252,7 +246,8 @@ function createLiveValidator(context: vscode.ExtensionContext, log: vscode.Outpu
     vscode.workspace.onDidChangeTextDocument(e => {
       if (vscode.window.activeTextEditor?.document === e.document) schedule(e.document);
     }),
-    vscode.window.onDidSaveTextDocument(doc => schedule(doc)),
+    // 🔧 FIX: workspace-level event, not window
+    vscode.workspace.onDidSaveTextDocument((doc: vscode.TextDocument) => schedule(doc)),
     vscode.window.onDidChangeActiveTextEditor(ed => schedule(ed?.document)),
     vscode.commands.registerCommand('mtl-ddex-vscode-helper.validateNow', () => schedule())
   );
@@ -267,17 +262,14 @@ export function activate(context: vscode.ExtensionContext) {
   log.show(true);
   log.appendLine('🔌 Activating MTL DDEX Helper…');
 
-  // 1) Upewnij się, że Red Hat XML jest dostępne
   ensureRedHatXmlInstalled(log).then(installed => {
     if (!installed) {
       vscode.window.showWarningMessage('MTL DDEX: Red Hat XML not installed – XSD validation will be unavailable.');
     }
   });
 
-  // 2) Załaduj mapę
   let ddexMap = loadDdexMap(context, log);
 
-  // 3) Hover: link do dokumentacji
   context.subscriptions.push(
     vscode.languages.registerHoverProvider('xml', {
       provideHover(doc, pos) {
@@ -293,7 +285,6 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // 4) Komendy
   const openDocs = vscode.commands.registerCommand('mtl-ddex-vscode-helper.openDocsForTag', async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) return;
@@ -313,7 +304,6 @@ export function activate(context: vscode.ExtensionContext) {
     refreshDecorations(vscode.window.activeTextEditor, ddexMap, log);
   });
 
-  // Nowa komenda: Associate ERN Schema (ustawia xml.fileAssociations wg wykrytej wersji)
   const associateSchema = vscode.commands.registerCommand('mtl-ddex-vscode-helper.associateErnSchema', async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) return;
@@ -333,7 +323,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(openDocs, reloadMap, associateSchema);
 
-  // 5) Dekoracje
   refreshDecorations(vscode.window.activeTextEditor, ddexMap, log);
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor(ed => refreshDecorations(ed, ddexMap, log)),
@@ -344,7 +333,6 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // 6) Walidator (zbiera diagnostics Red Hat XML)
   createLiveValidator(context, log);
 }
 
