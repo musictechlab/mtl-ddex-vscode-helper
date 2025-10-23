@@ -10,32 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧩 Checkout repository
+      - name: 🧩 Checkout
         uses: actions/checkout@v4
 
-      - name: 🧱 Set up Node.js
+      - name: 🧱 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: 📦 Install dependencies
-        run: npm install
+      - name: 📦 Install deps
+        run: npm ci
 
       - name: 🔧 Compile TypeScript
         run: npm run compile
 
+      - name: 🔎 Read package version
+        id: pkgver
+        run: echo "ver=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: 📀 Package VSIX
+        run: npx @vscode/vsce package --out mtl-ddex-vscode-helper-${{ steps.pkgver.outputs.ver }}.vsix
+
       - name: 🚀 Publish to Marketplace
-        run: npx vsce publish --packagePath mtl-ddex-vscode-helper-$(jq -r .version package.json).vsix
+        run: npx @vscode/vsce publish --packagePath mtl-ddex-vscode-helper-${{ steps.pkgver.outputs.ver }}.vsix -p "$VSCE_PAT"
         env:
           VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
-
-      # Optional: create .vsix file for releases
-      - name: 📀 Package VSIX
-        if: always()
-        run: npx vsce package
 
       - name: 💾 Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
           name: vsix
-          path: '*.vsix'
+          path: mtl-ddex-vscode-helper-${{ steps.pkgver.outputs.ver }}.vsix
