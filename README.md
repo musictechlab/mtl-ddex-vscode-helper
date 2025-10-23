@@ -1,7 +1,15 @@
 # 🎵 MTL DDEX Helper
 
+[![Version](https://img.shields.io/visual-studio-marketplace/v/musictechlab.mtl-ddex-vscode-helper)](https://marketplace.visualstudio.com/items?itemName=musictechlab.mtl-ddex-vscode-helper)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/musictechlab.mtl-ddex-vscode-helper)](https://marketplace.visualstudio.com/items?itemName=musictechlab.mtl-ddex-vscode-helper)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/musictechlab.mtl-ddex-vscode-helper)](https://marketplace.visualstudio.com/items?itemName=musictechlab.mtl-ddex-vscode-helper)
+
 **MTL DDEX Helper** is a VS Code extension that makes working with **DDEX XML metadata** (e.g. ERN, MLC, MWDR, Party ID) faster and easier.  
 It provides quick access to documentation, tag lookups, and metadata validation helpers — directly from your editor.
+
+![MTL DDEX Helper Screenshot](assets/images/screenshot.png)
+
+**[Install from VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=musictechlab.mtl-ddex-vscode-helper)**
 
 ---
 
