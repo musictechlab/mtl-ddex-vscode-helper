@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ern:NewReleaseMessage xmlns:ern="http://ddex.net/xml/ern/382"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+  xs:schemaLocation="http://ddex.net/xml/ern/382 http://ddex.net/xml/ern/382/release-notification.xsd"
+  MessageSchemaVersionId="ern/382"
+  LanguageAndScriptCode="en">
+  <PartyId Namespace="spotify">spotify:artist:XXXXXXX</PartyId>
+  <ReleaseList>
+    <Release>
+      <DisplayArtist>John Doe</DisplayArtist>
+    </Release>
+  </ReleaseList> 
+</ern:NewReleaseMessage>
