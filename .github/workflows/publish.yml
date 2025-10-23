@@ -26,7 +26,9 @@ jobs:
 
       - name: 🔎 Read package version
         id: pkgver
-        run: echo "ver=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          echo "ver=$VER" >> "$GITHUB_OUTPUT"
 
       - name: 📀 Package VSIX
         run: npx @vscode/vsce package --out mtl-ddex-vscode-helper-${{ steps.pkgver.outputs.ver }}.vsix
