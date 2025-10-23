@@ -27,7 +27,7 @@ jobs:
       - name: 🔎 Read package version
         id: pkgver
         run: |
-          VER=$(node -p "require('./package.json').version")
+          VER=$(node -e "console.log(require('./package.json').version)")
           echo "ver=$VER" >> "$GITHUB_OUTPUT"
 
       - name: 📀 Package VSIX
