@@ -3,7 +3,7 @@
   "displayName": "MTL DDEX Helper",
   "publisher": "musictechlab",
   "description": "Jump to DDEX XML tag documentation and tooling for ERN/MWDR/MLC.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "engines": {
     "vscode": "^1.105.0"
   },

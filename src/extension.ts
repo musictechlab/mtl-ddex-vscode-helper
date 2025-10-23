@@ -8,10 +8,10 @@ import { XMLValidator } from 'fast-xml-parser';
 function getTagAtPosition(document: vscode.TextDocument, position: vscode.Position): string | undefined {
   const line = document.lineAt(position.line).text;
   const lt = line.lastIndexOf('<', position.character);
-  if (lt === -1) return;
+  if (lt === -1) {return;}
 
   const m = line.slice(lt).match(/^<\/?\s*([A-Za-z_][\w:-]*)/);
-  if (!m) return;
+  if (!m) {return;}
 
   const raw = m[1];
   return raw.includes(':') ? raw.split(':').pop()! : raw;
@@ -58,7 +58,7 @@ function ensureDecoration() {
 }
 
 function refreshDecorations(editor: vscode.TextEditor | undefined, ddexMap: Record<string, string>, log?: vscode.OutputChannel) {
-  if (!editor || editor.document.languageId !== 'xml') return;
+  if (!editor || editor.document.languageId !== 'xml') {return;}
   ensureDecoration();
 
   const doc = editor.document;
@@ -71,7 +71,7 @@ function refreshDecorations(editor: vscode.TextEditor | undefined, ddexMap: Reco
   while ((m = re.exec(text))) {
     const raw = m[1];
     const tag = raw.includes(':') ? raw.split(':').pop()! : raw;
-    if (!tagExistsInMap(ddexMap, tag)) continue;
+    if (!tagExistsInMap(ddexMap, tag)) {continue;}
 
     const start = doc.positionAt(m.index + 1);
     const end = start.translate(0, raw.length);
@@ -96,7 +96,7 @@ function detectErnVersionFromText(text: string): { ns?: string; version?: string
       const ns = parts[0];
       const xsdUrl = parts[1];
       const ver = ns.match(/\/ern\/(\d+)\b/i)?.[1];
-      if (ver) return { ns, version: ver, xsdUrl };
+      if (ver) {return { ns, version: ver, xsdUrl };}
     }
   }
 
@@ -238,13 +238,13 @@ function createLiveValidator(context: vscode.ExtensionContext, log: vscode.Outpu
   }
 
   function schedule(doc?: vscode.TextDocument) {
-    if (debounce) clearTimeout(debounce);
+    if (debounce) {clearTimeout(debounce);}
     debounce = setTimeout(() => evaluate(doc ?? vscode.window.activeTextEditor?.document), 400);
   }
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeTextDocument(e => {
-      if (vscode.window.activeTextEditor?.document === e.document) schedule(e.document);
+      if (vscode.window.activeTextEditor?.document === e.document) {schedule(e.document);}
     }),
     // 🔧 FIX: workspace-level event, not window
     vscode.workspace.onDidSaveTextDocument((doc: vscode.TextDocument) => schedule(doc)),
@@ -274,7 +274,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.languages.registerHoverProvider('xml', {
       provideHover(doc, pos) {
         const tag = getTagAtPosition(doc, pos);
-        if (!tag) return;
+        if (!tag) {return;}
         const url = resolveTagUrl(ddexMap, tag);
         const text = url ? `**DDEX Docs:** [${tag}](${url})` : `*(no info for **${tag}** in ddex-map.json)*`;
         const md = new vscode.MarkdownString(text);
@@ -287,9 +287,9 @@ export function activate(context: vscode.ExtensionContext) {
 
   const openDocs = vscode.commands.registerCommand('mtl-ddex-vscode-helper.openDocsForTag', async () => {
     const editor = vscode.window.activeTextEditor;
-    if (!editor) return;
+    if (!editor) {return;}
     const tag = getTagAtPosition(editor.document, editor.selection.active);
-    if (!tag) return;
+    if (!tag) {return;}
     const url = resolveTagUrl(ddexMap, tag);
     if (!url) {
       vscode.window.showWarningMessage(`No info for "${tag}" in ddex-map.json`);
@@ -306,7 +306,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   const associateSchema = vscode.commands.registerCommand('mtl-ddex-vscode-helper.associateErnSchema', async () => {
     const editor = vscode.window.activeTextEditor;
-    if (!editor) return;
+    if (!editor) {return;}
     const text = editor.document.getText();
     const { version } = detectErnVersionFromText(text);
     if (!version) {
@@ -314,7 +314,7 @@ export function activate(context: vscode.ExtensionContext) {
         ['382', '381', '380', '375', '374', '373'],
         { placeHolder: 'Pick ERN version to associate (from schemaLocation or xmlns)' }
       );
-      if (!picked) return;
+      if (!picked) {return;}
       await associateErnSchema(picked, log);
     } else {
       await associateErnSchema(version, log);
