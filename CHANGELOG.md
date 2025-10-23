@@ -13,6 +13,8 @@
   to ensure the XML LSP is installed.
 
 ### 🧰 Improved
+- Simplified validator — replaced native `libxml2` calls with VS Code diagnostics
+  from the Red Hat XML language server.
 - Added better detection of `schemaLocation` and ERN version.
 - Enhanced output logging for better debugging.
 - Improved hover tooltips and tag decorations from `ddex-map.json`.
@@ -21,6 +23,7 @@
 - Removed all native dependencies (`xmllint`, `xsd-schema-validator`).
 - Removed blocking schema download logic — validation is now handled by Red Hat XML.
 
+---
 
 ## [0.0.1]
 

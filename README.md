@@ -1,17 +1,18 @@
 # 🎵 MTL DDEX Helper
 
-**MTL DDEX Helper** is an experimental and unofficial VS Code extension that makes working with **DDEX XML metadata** (ERN, MWDR, MLC, Party ID, etc.) faster and easier. It integrates directly with the **Red Hat XML** language server to provide **live XSD validation**, documentation hovers, and schema helpers.
+**MTL DDEX Helper** is a VS Code extension that makes working with **DDEX XML metadata** (ERN, MWDR, MLC, Party ID, etc.) faster and easier.  
+It integrates directly with the **Red Hat XML** language server to provide **live XSD validation**, documentation hovers, and schema helpers.
 
 ---
 
 ## ✨ Features
 
-🔗 **Jump to documentation** — place your cursor on any XML tag (e.g. `<PartyId>`) and press `Ctrl + Alt + D` to open the official DDEX documentation.  
-⚙️ **Namespace aware** — works even with prefixed tags like `<ern:ReleaseList>`.  
-📘 **Live schema validation** — uses Red Hat XML LSP to validate your DDEX XML in real time.  
-🧩 **Auto schema association** — run `MTL DDEX: Associate ERN Schema` to link the correct ERN XSD version (e.g. 3.8.2).  
-📁 **Customizable tag map** — edit `assets/ddex-map.json` to define tag-to-documentation URLs.  
-🪶 **Lightweight & portable** — no native dependencies, works cross-platform.
+- 🔗 **Jump to documentation** — place your cursor on any XML tag (e.g. `<PartyId>`) and press `Ctrl + Alt + D` to open the official DDEX documentation.  
+- ⚙️ **Namespace aware** — works even with prefixed tags like `<ern:ReleaseList>`.  
+- 📘 **Live schema validation** — uses Red Hat XML LSP to validate your DDEX XML in real time.  
+- 🧩 **Auto schema association** — run `MTL DDEX: Associate ERN Schema` to link the correct ERN XSD version (e.g. 3.8.2).  
+- 📁 **Customizable tag map** — edit `assets/ddex-map.json` to define tag-to-documentation URLs.  
+- 🪶 **Lightweight & portable** — no native dependencies, works cross-platform.
 
 ---
 
