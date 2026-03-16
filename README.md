@@ -112,7 +112,26 @@ the [ReleaseList documentation](https://support.google.com/youtube/answer/350611
 
 ---
 
-## 🪪 License
+## Contributing
 
-MIT License — © 2025 MusicTech Lab.  
-Built with ❤️ by [MusicTech Lab](https://musictechlab.io).
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a PR.
+
+## Security
+
+To report a vulnerability, please see [SECURITY.md](SECURITY.md).
+
+## License
+
+MIT License — © 2025 MusicTech Lab — see [LICENSE](LICENSE) for details.
+
+---
+
+<div align="center">
+  MusicTech Lab - Rockstars Developers dedicated to the Music Industry<br>
+  <a href="https://musictechlab.io">Website</a>
+  <span> | </span>
+  <a href="https://linkedin.com/company/musictechlab">LinkedIn</a>
+  <span> | </span>
+  <a href="https://musictechlab.io/contact">Let's talk</a><br>
+  Crafted by <a href="https://musictechlab.io">musictechlab.io</a>
+</div>
